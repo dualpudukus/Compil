@@ -7,6 +7,15 @@
 %union { 
 	int value;
 	char* string;
+	struct {
+		struct symbol* result;
+		struct quad* code;
+	} code_expression;
+	struct {
+		struct quad* code;
+		struct quad_list* truelist;
+		struct quad_list* falselist;
+	} code_condition;
 }
 
 %token <string> ID
@@ -20,15 +29,23 @@ axiom:
 	;
 
 expr:
-	  ID
-	| NUM
+	  ID	{
+	  			$$.result = symbol_lookup(symbol_table, $1);
+	  			if ($$.result == NULL)
+	  				$$.result = symbol_add(&symbol_table, $1);
+	  				$$.code = NULL;
+	  		}
+	| NUM	{
+				$$.result = symbol_newcst(&symbol_table, $1);
+				$$.code = NULL;
+			}
 	;
 
 statement:
 	  ID ASSIGN expr
 	| WHILE condition '{' statement '}'
-	| IF condition '{' statement '}'
-	| IF condition '{' statement ELSE statement '}'
+	| IF condition '{' statement '}'					{ }
+	| IF condition '{' statement ELSE statement '}'		{ }
 	;
 
 statement_list:

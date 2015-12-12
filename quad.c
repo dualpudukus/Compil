@@ -15,12 +15,10 @@ struct quad* quad_malloc(int op,struct symbol* arg1,struct symbol* arg2,struct s
 }
 
 void quad_add(struct quad** list, struct quad* new){
-if(*list == NULL)
-{
-		*list = new;
-	}
-	else
+	if(*list == NULL)
 	{
+		*list = new;
+	} else {
 		struct quad* scan = *list;
 		while(scan->next != NULL)
 			scan = scan->next;
@@ -30,15 +28,11 @@ if(*list == NULL)
 
 void quad_print(struct quad* list)
 {
+	int i = 0;
 	while(list != NULL)
 	{
-		printf("%d ",list->op);
-		if(list->arg1 != NULL) printf(" %s ",list->arg1->id);
-		else printf(" vide ");
-		if(list->arg2 != NULL) printf(" %s ",list->arg2->id);
-		else printf(" vide ");
-		if(list->res != NULL) printf(" %s ",list->res->id);
-		else printf(" vide ");
+		printf("Node %2d:\n", i);
+		quad_print(list->node);
 		printf("\n");
 		list = list->next;
 	}
@@ -52,8 +46,16 @@ struct quad_list* quad_list_new(struct quad* node)
 	return new;
 }
 
-struct quad_list* quad_list_add(struct quad_list* list1, struct quad_list* list2)
+struct quad_list* quad_list_add(struct quad_list** dest, struct quad_list* src)
 {
+	if (*dest == NULL) {
+		*dest = src;
+	} else {
+		struct quad_list* scan = *dest;
+		while (scan->next != NULL)
+			scan = scan->next;
+		scan->next = src;
+	}
 	return list1;
 }
 
@@ -61,7 +63,7 @@ struct quad_list* quad_list_complete(struct quad_list* list, struct symbol* node
 {
 	while(list != NULL)
 	{
-		list->node->res = node;
+		list->node->res = label;
 		list = list->next;
 	}
 	return list;
