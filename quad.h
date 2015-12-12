@@ -12,7 +12,7 @@ struct quad {
 struct quad* quad_gen(int*,char, struct symbol*,struct symbol*,struct symbol*)
 void quad_free(struct quad*)
 void quad_add(struct quad**, struct quad*)
-void quad_print(strudct quad*)
+void quad_print(struct quad*)
 
 
 struct quad_list* quad_list_new(struct quad*)
