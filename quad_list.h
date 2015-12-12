@@ -1,6 +1,10 @@
 #ifndef QUAD_LIST_H
 #define QUAD_LIST_H
 
+struct quad_list{
+	struct quad* node;
+	struct quad_list* next;
+};
 
 struct quad_list* quad_list_new(struct quad*)
 void quad_list_free(struct quad_list*)
