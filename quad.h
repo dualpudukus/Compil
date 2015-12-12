@@ -11,16 +11,16 @@ struct quad * next;
 };
 
 struct quad* quad_gen(int*,char, struct symbol*,struct symbol*,struct symbol*)
-void quad_free(strut quad*)
-void quad_add(strut quad**, strut quad*)
-void quad_print(strut quad*)
+void quad_free(struct quad*)
+void quad_add(struct quad**, struct quad*)
+void quad_print(strudct quad*)
 
 
-struct quad_list* quad_list_new(strut quad*)
-void quad_list_free(strut quad_list*)
-void quad_list_add(strut quad_list**, strut quad_list*)
-void quad_list_complete(strut quad_list*,struct_symbol*)
-void quad_list_print(strut quad_list*)
+struct quad_list* quad_list_new(struct quad*)
+void quad_list_free(struct quad_list*)
+void quad_list_add(struct quad_list**, struct quad_list*)
+void quad_list_complete(struct quad_list*,struct_symbol*)
+void quad_list_print(struct quad_list*)
 
 struct symbol* symbol_alloc()
 void symbol_free(struct symbol*)

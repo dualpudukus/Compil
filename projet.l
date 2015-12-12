@@ -42,3 +42,11 @@ chaine 		\"(\\.|[^\"\\])*\"
 [\n] 
 . 
 %%
+
+int main() {
+
+	printf("Bonsoir LEX\n");
+	yylex();
+	return 0;
+
+}
