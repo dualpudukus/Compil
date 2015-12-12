@@ -38,25 +38,25 @@ int id_find(char* id)
 }%
 
 {identifier}	[_a-zA-Z][_a-zA-Z0-9]
-{number}	[0-9]+
+{number}		[0-9]+
 
 %%
 
-==		{ return EQUAL; }
-!		{ return NOT; }
-[=]		{ return ASSIGN; }
-(		{ return OPAR; }
-)		{ return CPAR; }
-if		{ return IF; }
-while		{ return WHILE; }
-else		{ return ELSE; }
-[{}]		{ return yytext[0]; }
-&&		{ return AND; }
-||		{ return OR; }
+==				{ return EQUAL; }
+!				{ return NOT; }
+[=]				{ return ASSIGN; }
+(				{ return OPAR; }
+)				{ return CPAR; }
+if				{ return IF; }
+while			{ return WHILE; }
+else			{ return ELSE; }
+[{}]			{ return yytext[0]; }
+&&				{ return AND; }
+||				{ return OR; }
 {identifier}	{ id_add(yytext);
-		  return ID; }
-{number}	{ return NUM; }
-[\n]		{ return yytext[0]; }
+					return ID; }
+{number}		{ return NUM; }
+[\n]			{ return yytext[0]; }
 
 %%
 
