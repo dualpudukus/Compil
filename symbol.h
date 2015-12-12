@@ -3,7 +3,7 @@
 
 struct symbol {
 	char* identifier;
-	bool isconstant;
+	int isconstant;
 	int value;
 	struct symbol* next;
 };
