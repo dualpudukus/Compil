@@ -29,24 +29,57 @@ axiom:
 	;
 
 expr:
-	  ID	{
-	  			$$.result = symbol_lookup(symbol_table, $1);
-	  			if ($$.result == NULL)
-	  				$$.result = symbol_add(&symbol_table, $1);
-	  				$$.code = NULL;
-	  		}
-	| NUM	{
-				$$.result = symbol_newcst(&symbol_table, $1);
-				$$.code = NULL;
-			}
+	  expr PLUS expr 										{ 	
+		  														printf("expr -> expr + expr\n");
+																$$.result	= symbol_newtemp(&tds);
+																$$.code	= $1.code;
+																quad_add(&$$.code,$3.code);
+																quad_add(&$$.code, quad_malloc(_PLUS,$1.result,$3.result,$$.result));
+															}
+	| expr MOINS expr 										{
+																printf("expr -> expr - expr\n");
+																$$.result	= symbol_newtemp(&tds);
+																$$.code	= $1.code;
+																quad_add(&$$.code,$3.code);
+																quad_add(&$$.code, quad_malloc(_MOINS,$1.result,$3.result,$$.result));
+															}
+	| expr MUL expr											{	
+																printf("expr -> expr * expr\n");
+																$$.result = symbol_newtemp(&tds);
+																$$.code = $1.code;
+																quad_add(&$$.code,$3.code);
+																quad_add(&$$.code, quad_malloc(_MUL,$1.result,$3.result,$$.result));
+															}
+	| expr DIV expr											{	
+																printf("expr -> expr * expr\n");
+																$$.result = symbol_newtemp(&tds);
+																$$.code = $1.code;
+																quad_add(&$$.code,$3.code);
+																quad_add(&$$.code, quad_malloc(_DIV,$1.result,$3.result,$$.result));
+															}
+	| '(' expr ')'									 		{ 	
+																printf("expr -> ( expr ) \n");
+																$$.result	= $2.result;
+																$$.code	= $2.code;
+															}
+	| ID													{
+																$$.result = symbol_lookup(symbol_table, $1);
+																if ($$.result == NULL)
+																	$$.result = symbol_add(&symbol_table, $1);
+																$$.code = NULL;
+															}
+	| NUM													{
+																$$.result = symbol_newcst(&symbol_table, $1);
+																$$.code = NULL;
+															}
 	;
 
 statement:
-	  ID ASSIGN expr 									{
-															$$.result = symbol_add(&tds,$2);							
-															$$.code=NULL;
-															quad_add(&$$.code, quad_malloc(_AFFECT,$4.result,NULL,$$.result));
-														}
+	  ID ASSIGN expr 										{
+																$$.result = symbol_add(&tds,$2);							
+																$$.code=NULL;
+																quad_add(&$$.code, quad_malloc(_AFFECT,$4.result,NULL,$$.result));
+															}
 	| WHILE condition '{' statement '}'
 	| IF condition '{' statement '}'					{ }
 	| IF condition '{' statement ELSE statement '}'		{ }
@@ -58,7 +91,31 @@ statement_list:
 	;
 
 condition:
-	 ID EQUAL NUM
+	  expr '>' expr 										{
+		  														struct quad* goto_true;
+																struct quad* goto_false;
+																quad_add(&goto_true, quad_malloc('>',$1.result,$3.result,NULL));
+																quad_add(&goto_false, quad_malloc('G',NULL,NULL,NULL));
+																$$.code	= $1.code;
+																quad_add(&$$.code, $3.code);
+																quad_add(&$$.code, goto_true);
+																quad_add(&$$.code, goto_false);
+																$$.truelist	= quad_list_new(goto_true);
+																$$.falselist = quad_list_new(goto_false);	
+		  													}
+	| expr '<' expr 										{
+		  														struct quad* goto_true;
+																struct quad* goto_false;
+																quad_add(&goto_true, quad_malloc('<',$1.result,$3.result,NULL));
+																quad_add(&goto_false, quad_malloc('G',NULL,NULL,NULL));
+																$$.code	= $1.code;
+																quad_add(&$$.code, $3.code);
+																quad_add(&$$.code, goto_true);
+																quad_add(&$$.code, goto_false);
+																$$.truelist	= quad_list_new(goto_true);
+																$$.falselist = quad_list_new(goto_false);
+		  													}
+	| ID EQUAL NUM										
 	| TRUE
 	| FALSE
 	| condition AND tag condition 							{
