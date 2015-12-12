@@ -1,6 +1,12 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
+struct symbol {
+	char* identifier;
+	bool isconstant;
+	int value;
+	struct symbol* next;
+};
 
 struct symbol* symbol_alloc()
 void symbol_free(struct symbol*)
