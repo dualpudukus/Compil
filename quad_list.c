@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "quad_list.h"
+#include "quad.c"
 
 struct quad_list* quad_list_new(struct quad* node)
 {
@@ -11,25 +12,35 @@ struct quad_list* quad_list_new(struct quad* node)
 	return new;
 }
 
-struct quad_list* quad_list_add(struct quad_list** dest, struct quad_list* src)
+void quad_list_add(struct quad_list** dest, struct quad_list* src)
 {
 	if (*dest == NULL) {
 		*dest = src;
 	} else {
 		struct quad_list* scan = *dest;
 		while (scan->next != NULL)
-			scan = scan->next;
-		scan->next = src;
+			scan->next = src;
 	}
-	return list1;
 }
 
-struct quad_list* quad_list_complete(struct quad_list* list, struct symbol* label)
+void quad_list_complete(struct quad_list* list, struct symbol* label)
 {
 	while(list != NULL)
-	{
 		list->node->res = label;
-		list = list->next;
-	}
-	return list;
+}
+
+void quad_list_free(struct quad_list* list)
+{
+	while(list != NULL)
+		quad_free(list->node);
+}
+
+void quad_list_print(struct quad_list* list)
+{
+	while(list != NULL)
+		quad_print(list->node);
+}
+
+int main()
+{
 }

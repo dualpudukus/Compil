@@ -1,15 +1,18 @@
 #ifndef QUAD_LIST_H
 #define QUAD_LIST_H
 
+#include "quad.h"
+#include <stdio.h>
+
 struct quad_list{
 	struct quad* node;
 	struct quad_list* next;
 };
 
-struct quad_list* quad_list_new(struct quad*);
-void quad_list_free(struct quad_list*);
-void quad_list_add(struct quad_list**, struct quad_list*);
-void quad_list_complete(struct quad_list*,struct struct_symbol*);
-void quad_list_print(struct quad_list*);
+struct quad_list* quad_list_new(struct quad* node);
+void quad_list_add(struct quad_list** dest, struct quad_list* src);
+void quad_list_complete(struct quad_list* list,struct symbol* label);
+void quad_list_free(struct quad_list* list);
+void quad_list_print(struct quad_list* list);
 
 #endif
