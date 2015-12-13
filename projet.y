@@ -41,10 +41,19 @@ axiom:
 	  															struct symbol* label_true;
 	  															struct symbol* label_false;
 
-	  															label_true = symbol_newcst(&symbol_table, next);
-	  															is_true = quad_gen(&next, ':', cst_true, NULL, result);
-	  															jump = quad_gen(&next, 'G', NULL, NULL, NULL);
-	  															label_false = symbol_newcst(&symbol_table, next);
+	  															label_true = symbol_newcst(&symbol_table, next_quad);
+	  															is_true = quad_gen(&next_quad, ':', cst_true, NULL, result);
+	  															jump = quad_gen(&next_quad, 'G', NULL, NULL, NULL);
+	  															label_false = symbol_newcst(&symbol_table, next_quad);
+	  															is_false = quad_gen(&next_quad, ':', cst_false, NULL, result);
+	  															quad_list_complete($1.truelist, label_true);
+	  															quad_list_complete($1.falselist, label_false);
+
+	  															code = $1.code;
+	  															quad_add(&code, is_true);
+	  															quad_add(&code, jump);
+	  															quad_add(&code, is_false);
+	  															return 0;
 	 														}
 	;
 
