@@ -42,13 +42,15 @@ void quad_add(struct quad** dest, struct quad* src)
 	}
 }
 
-void quad_print(struct quad* list)
-{
-	int i = 0;
-	while(list != NULL)
-	{
-		printf("Node %2d:\n", i);
-		quad_print(list->node);
+void quad_print(struct quad* list){
+	while(list != NULL){
+		printf("%d ",list->op);
+		if(list->arg1 != NULL) printf(" %s ",list->arg1->identifier);
+		else printf(" vide ");
+		if(list->arg2 != NULL) printf(" %s ",list->arg2->identifier);
+		else printf(" vide ");
+		if(list->res != NULL) printf(" %s ",list->res->identifier);
+		else printf(" vide ");
 		printf("\n");
 		list = list->next;
 	}
