@@ -36,7 +36,7 @@ chaine 		\"(\\.|[^\"\\])*\"
 "true" 			{return TRUE;}
 "false" 		{return FALSE;}
 
-{identifier} 	{yylval.string = strdup(yytext);return ID;}
+{identifier}	{yylval.string = strdup(yytext);return ID;}
 {number} 		{yylval.value = atoi(yytext); return NUM; }
 {chaine} 		{yylval.string = strdup(yytext);return CHAINE;}
 [\n] 
