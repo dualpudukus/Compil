@@ -53,7 +53,6 @@ axiom:
 	  															quad_add(&code, is_true);
 	  															quad_add(&code, jump);
 	  															quad_add(&code, is_false);
-	  															return 0;
 	 														}
 	;
 
