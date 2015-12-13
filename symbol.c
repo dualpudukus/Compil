@@ -45,8 +45,8 @@ struct symbol* symbol_lookup(struct symbol* table, char* identifier)
 	while (table != NULL)
 	{
 		if (strcmp(table->identifier, identifier) == 0)
-		return table;
-	table = table->next;
+			return table;
+		table = table->next;
 	}
 	return NULL;
 }
