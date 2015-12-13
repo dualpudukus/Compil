@@ -11,7 +11,7 @@ struct symbol {
 };
 
 struct symbol* symbol_alloc();
-struct symbol* symbol_newtemp(struct symbol**);
+struct symbol* symbol_newtemp(struct symbol** table);
 
 /*void symbol_free(struct symbol*);
 struct symbol* symbol_newst(struct symbol**, int);

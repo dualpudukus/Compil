@@ -3,8 +3,6 @@
 #include <string.h>
 #include "symbol.h"
 
-static int symbol_temp_number = 0;
-
 struct symbol* symbol_alloc()
 {
 	struct symbol* new;
@@ -16,17 +14,13 @@ struct symbol* symbol_alloc()
 	return new;
 }
 
-struct symbol* symbol_newtemp(struct symbol** table, int* tag) 
+struct symbol* symbol_newtemp(struct symbol** table) 
 {
-	struct symbol* scan;
-	char nametemp[SYMBOL_MAX_STRING];
-	sprintf(nametemp, "temp_%d", *tag);
-	symbol_add(table, nametemp);
-	(*tag)++;
-	scan = *table;
-	while (scan->next != NULL)
-		scan = scan->next;
-	return scan;
+	static int symbol_temp_number = 0;
+	char name_temp[SYMBOL_MAX_NAME];
+	sprintf(nametemp, "temp_%d",symbol_temp_number);
+	symbol_temp_number++;
+	return symbol_add(table,name_temp);
 }
 
 /*
