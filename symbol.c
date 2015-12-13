@@ -55,7 +55,7 @@ struct symbol* symbol_newcst(struct symbol** table, int value)
 	static int symbol_constant_number = 0;
 	char name_constant[SYMBOL_MAX_NAME];
 	snprintf(name_constant,SYMBOL_MAX_NAME,"cst_%d",symbol_constant_number++);
-	*table = symbol_alloc()
+	*table = symbol_alloc();
 	(*table)->value = value;
 	(*table)->isconstant = true;
 	return symbol_add(table,name_constant);
