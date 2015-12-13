@@ -11,7 +11,7 @@ struct symbol* symbol_alloc()
 	new = (struct symbol*)malloc(sizeof(struct symbol));
 	new->identifier = NULL;
 	new->value = 0;
-	new->isconstant = 0;
+	new->isconstant = false;
 	new->next = NULL;
 	return new;
 }
@@ -29,6 +29,7 @@ struct symbol* symbol_newtemp(struct symbol** table, int* tag)
 	return scan;
 }
 
+/*
 struct symbol* symbol_lookup(struct symbol* table, char* identifier)
 {
 	while (table != NULL)
@@ -64,4 +65,8 @@ void symbol_print(struct symbol* symbol)
 		symbol->identifier, symbol->isconstant, symbol->value);
 		symbol = symbol->next;
 	}
+} */
+
+int main ()
+{
 }
