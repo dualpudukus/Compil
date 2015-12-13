@@ -8,10 +8,10 @@ struct symbol {
 	struct symbol* next;
 };
 
-
+<<<<<<< HEAD
 struct symbol* symbol_alloc();
 struct symbol* symbol_newtemp(struct symbol** table);
-
+=======
 struct symbol* symbol_alloc()
 void symbol_free(struct symbol*)
 struct symbol* symbol_newtemp(struct symbol**)
@@ -19,6 +19,6 @@ struct symbol* symbol_newcst(struct symbol**, int)
 struct symbol* symbol_lookup(struct symbol*,char)
 struct symbol* symbol_add(struct symbol*,char)
 void symbol_print(struct symbol*)
-
+>>>>>>> 06f8ed9df30c9302bb8ef877cb0083ed7168ff8f
 
 #endif
