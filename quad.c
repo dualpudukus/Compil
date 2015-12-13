@@ -4,7 +4,7 @@
 #include "quad.h"
 #include "symbol.h"
 
-struct quad* quad_gen(int op,struct symbol* arg1,struct symbol* arg2,struct symbol* res)
+struct quad* quad_gen(int* label, char op,struct symbol* arg1,struct symbol* arg2,struct symbol* res)
 {
 	struct quad* new = malloc(sizeof(struct quad));
 	new->label = *label;
