@@ -7,6 +7,7 @@
 struct quad* quad_gen(int op,struct symbol* arg1,struct symbol* arg2,struct symbol* res)
 {
 	struct quad* new = malloc(sizeof(*new));
+	new->label = next_quad++;
 	new->op = op;
 	new->arg1 = arg1;
 	new->arg2 = arg2;

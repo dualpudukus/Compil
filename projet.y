@@ -3,6 +3,10 @@
 	#include <stdlib.h>
 	#include <stdio.h>
 	void yyerror(char*);
+
+	struct symbol* symbol_table = NULL;
+	struct quad* code = NULL;
+	int next_quad = 0,
 %}
 
 %union { 
@@ -37,35 +41,38 @@ axiom:
 	  															struct symbol* label_true;
 	  															struct symbol* label_false;
 
-	  															label_true = symbol_newcst(&symbol_table, next)
+	  															label_true = symbol_newcst(&symbol_table, next);
+	  															is_true = quad_gen(&next, ':', cst_true, NULL, result);
+	  															jump = quad_gen(&next, 'G', NULL, NULL, NULL);
+	  															label_false = symbol_newcst(&symbol_table, next);
 	 														}
 	;
 
 expr:
 	  expr PLUS expr 										{ 	
 		  														printf("expr -> expr + expr\n");
-																$$.result	= symbol_newtemp(&tds);
+																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_PLUS,$1.result,$3.result,$$.result));
 															}
 	| expr MOINS expr 										{
 																printf("expr -> expr - expr\n");
-																$$.result	= symbol_newtemp(&tds);
+																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_MOINS,$1.result,$3.result,$$.result));
 															}
 	| expr MUL expr											{	
 																printf("expr -> expr * expr\n");
-																$$.result = symbol_newtemp(&tds);
+																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_MUL,$1.result,$3.result,$$.result));
 															}
 	| expr DIV expr											{	
 																printf("expr -> expr * expr\n");
-																$$.result = symbol_newtemp(&tds);
+																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_DIV,$1.result,$3.result,$$.result));
@@ -89,7 +96,7 @@ expr:
 
 statement:
 	  ID ASSIGN expr 										{
-																$$.result = symbol_add(&tds,$2);							
+																$$.result = symbol_add(&symbol_table,$2);							
 																$$.code=NULL;
 																quad_add(&$$.code, quad_gen(_AFFECT,$4.result,NULL,$$.result));
 															}
@@ -162,7 +169,7 @@ condition:
 	;
 
 tag:
-	{ 	$$.result = symbol_newtemp(&tds);
+	{ 	$$.result = symbol_newcst(&symbol_table, next_quad);
 		$$.result->value = next; 
 		$$.code = NULL;
 	};
