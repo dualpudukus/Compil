@@ -77,6 +77,3 @@ void symbol_free(struct symbol* table)
 	free(table);
 }
 
-int main()
-{
-}
