@@ -2,11 +2,11 @@
 #define QUAD_H
 
 struct quad {
-	int *label;
+	int* label;
 	char op;
-	struct symbol *arg1;
-	struct symbol *arg2;
-	struct symbol *res;
+	struct symbol* arg1;
+	struct symbol* arg2;
+	struct symbol* res;
 	struct quad *next;
 };
 
