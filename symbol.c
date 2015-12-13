@@ -14,28 +14,7 @@ struct symbol* symbol_alloc()
 	return new;
 }
 
-struct symbol* symbol_newtemp(struct symbol** table) 
-{
-	static int symbol_temp_number = 0;
-	char name_temp[SYMBOL_MAX_NAME];
-	sprintf(nametemp, "temp_%d",symbol_temp_number);
-	symbol_temp_number++;
-	return symbol_add(table,name_temp);
-}
-
-/*
-struct symbol* symbol_lookup(struct symbol* table, char* identifier)
-{
-	while (table != NULL)
-	{
-		if (strcmp(table->identifier, identifier) == 0)
-		return table;
-	table = table->next;
-	}
-	return NULL;
-}
-
-void symbol_add(struct symbol** table, char* identifier)
+struct symbol* symbol_add(struct symbol** table, char* identifier)
 {
 	struct symbol* scan;
 	if (*table == NULL) 
@@ -51,6 +30,36 @@ void symbol_add(struct symbol** table, char* identifier)
 	}
 }
 
+struct symbol* symbol_newtemp(struct symbol** table) 
+{
+	static int symbol_temp_number = 0;
+	char name_temp[SYMBOL_MAX_NAME];
+	snprintf(name_temp,SYMBOL_MAX_NAME,"temp_%d",symbol_temp_number);
+	symbol_temp_number++;
+	return symbol_add(table,name_temp);
+}
+
+
+struct symbol* symbol_lookup(struct symbol* table, char* identifier)
+{
+	while (table != NULL)
+	{
+		if (strcmp(table->identifier, identifier) == 0)
+		return table;
+	table = table->next;
+	}
+	return NULL;
+}
+
+struct symbol* symbol_newcst(struct symbol** table, int value)
+{
+	static int symbol_constant_number = 0;
+	char name_constant[SYMBOL_MAX_NAME];
+	snprintf(name_constant,SYMBOL_MAX_NAME,"cst_%d",symbol_constant_number);
+	symbol_constant_number++;
+	return symbol_add(table,name_constant);
+}
+
 void symbol_print(struct symbol* symbol)
 {
 	while (symbol != NULL) 
@@ -59,8 +68,14 @@ void symbol_print(struct symbol* symbol)
 		symbol->identifier, symbol->isconstant, symbol->value);
 		symbol = symbol->next;
 	}
-} */
+}
 
-int main ()
+void symbol_free(struct symbol* table)
+{
+	free(table->identifier);
+	free(table);
+}
+
+int main()
 {
 }
