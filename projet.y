@@ -26,7 +26,19 @@
 
 %%
 axiom:
-	 statement '\n' //{printf("%d\n",$1);}
+	  statement '\n'										{
+	  															printf("Match ! \n");
+	  															struct symbol* cst_true = symbol_newcst(&symbol_table, 1);
+	  															struct symbol* cst_false = symbol_newcst(&symbol_table, 0);
+	  															struct symbol* result = symbol_add(&symbol_table, "result");
+	  															struct quad* is_true;
+	  															struct quad* is_false;
+	  															struct quad* jump;
+	  															struct symbol* label_true;
+	  															struct symbol* label_false;
+
+	  															label_true = symbol_newcst(&symbol_table, next)
+	 														}
 	;
 
 expr:
@@ -95,8 +107,8 @@ condition:
 	  expr '>' expr 										{
 		  														struct quad* goto_true;
 																struct quad* goto_false;
-																quad_add(&goto_true, quad_gen('>',$1.result,$3.result,NULL));
-																quad_add(&goto_false, quad_gen('G',NULL,NULL,NULL));
+																quad_add(&goto_true, quad_gen('>', $1.result, $3.result, NULL));
+																quad_add(&goto_false, quad_gen('G', NULL, NULL, NULL));
 																$$.code	= $1.code;
 																quad_add(&$$.code, $3.code);
 																quad_add(&$$.code, goto_true);
