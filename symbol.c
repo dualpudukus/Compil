@@ -34,8 +34,7 @@ struct symbol* symbol_newtemp(struct symbol** table)
 {
 	static int symbol_temp_number = 0;
 	char name_temp[SYMBOL_MAX_NAME];
-	snprintf(name_temp,SYMBOL_MAX_NAME,"temp_%d",symbol_temp_number);
-	symbol_temp_number++;
+	snprintf(name_temp,SYMBOL_MAX_NAME,"temp_%d",symbol_temp_number++);
 	return symbol_add(table,name_temp);
 }
 
@@ -55,8 +54,10 @@ struct symbol* symbol_newcst(struct symbol** table, int value)
 {
 	static int symbol_constant_number = 0;
 	char name_constant[SYMBOL_MAX_NAME];
-	snprintf(name_constant,SYMBOL_MAX_NAME,"cst_%d",symbol_constant_number);
-	symbol_constant_number++;
+	snprintf(name_constant,SYMBOL_MAX_NAME,"cst_%d",symbol_constant_number++);
+	*table = symbol_alloc()
+	(*table)->value = value;
+	(*table)->isconstant = true;
 	return symbol_add(table,name_constant);
 }
 
