@@ -68,28 +68,28 @@ expr:
 																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
-																quad_add(&$$.code, quad_gen(_PLUS,$1.result,$3.result,$$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '+', $1.result, $3.result, $$.result));
 															}
 	| expr '-' expr 										{
 																printf("expr -> expr - expr\n");
 																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
-																quad_add(&$$.code, quad_gen(_MOINS,$1.result,$3.result,$$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '-', $1.result, $3.result, $$.result));
 															}
 	| expr '*' expr											{	
 																printf("expr -> expr * expr\n");
 																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
 																quad_add(&$$.code,$3.code);
-																quad_add(&$$.code, quad_gen(_MUL,$1.result,$3.result,$$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '*', $1.result, $3.result, $$.result));
 															}
 	| expr '/' expr											{	
 																printf("expr -> expr * expr\n");
 																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
 																quad_add(&$$.code,$3.code);
-																quad_add(&$$.code, quad_gen(_DIV,$1.result,$3.result,$$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '/', $1.result, $3.result, $$.result));
 															}
 	| '(' expr ')'									 		{ 	
 																printf("expr -> ( expr ) \n");
@@ -112,7 +112,7 @@ statement:
 	  ID '=' expr 											{
 																$$.result = symbol_add(&symbol_table,$2);							
 																$$.code=NULL;
-																quad_add(&$$.code, quad_gen(_AFFECT,$4.result,NULL,$$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '=', $4.result, NULL, $$.result));
 															}
 	| WHILE condition '{' statement '}'						{ }
 	| IF condition '{' statement '}'						{ }
@@ -132,8 +132,8 @@ condition:
 	  expr '>' expr 										{
 		  														struct quad* goto_true;
 																struct quad* goto_false;
-																quad_add(&goto_true, quad_gen('>', $1.result, $3.result, NULL));
-																quad_add(&goto_false, quad_gen('G', NULL, NULL, NULL));
+																quad_add(&goto_true, quad_gen(&next_quad, '>', $1.result, $3.result, NULL));
+																quad_add(&goto_false, quad_gen(&next_quad, 'G', NULL, NULL, NULL));
 																$$.code	= $1.code;
 																quad_add(&$$.code, $3.code);
 																quad_add(&$$.code, goto_true);
@@ -144,8 +144,8 @@ condition:
 	| expr '<' expr 										{
 		  														struct quad* goto_true;
 																struct quad* goto_false;
-																quad_add(&goto_true, quad_gen('<',$1.result,$3.result,NULL));
-																quad_add(&goto_false, quad_gen('G',NULL,NULL,NULL));
+																quad_add(&goto_true, quad_gen(&next_quad, '<', $1.result, $3.result, NULL));
+																quad_add(&goto_false, quad_gen(&next_quad, 'G', NULL, NULL, NULL));
 																$$.code	= $1.code;
 																quad_add(&$$.code, $3.code);
 																quad_add(&$$.code, goto_true);
@@ -158,14 +158,14 @@ condition:
 															}
 	| TRUE 													{
 	     														struct quad* its_true;
-	     														quad_add(&its_true, quad_gen(('T', NULL, NULL, NULL));	     														
+	     														quad_add(&its_true, quad_gen((&next_quad, 'T', NULL, NULL, NULL));	     														
     															$$.code = quad_list_new(its_true);
     															$$.truelist = $$.code;
     															$$.falselist = NULL;											
 															}
 	| FALSE 												{
 																struct quad* its_false;
-	     														quad_add(&its_false, quad_gen(('F', NULL, NULL, NULL));	     														
+	     														quad_add(&its_false, quad_gen((&next_quad, 'F', NULL, NULL, NULL));	     														
     															$$.code = quad_list_new(its_false);
     															$$.falselist = $$.code;
     															$$.truelist = NULL;
