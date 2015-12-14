@@ -161,14 +161,14 @@ condition:
 															}
 	| TRUE 													{
 	     														struct quad* its_true;
-	     														quad_add(&its_true, quad_gen((&next_quad, 'T', NULL, NULL, NULL));	     														
+	     														quad_add(&its_true, quad_gen(&next_quad, 'T', NULL, NULL, NULL));	     														
     															$$.code = quad_list_new(its_true);
     															$$.truelist = $$.code;
     															$$.falselist = NULL;											
 															}
 	| FALSE 												{
 																struct quad* its_false;
-	     														quad_add(&its_false, quad_gen((&next_quad, 'F', NULL, NULL, NULL));	     														
+	     														quad_add(&its_false, quad_gen(&next_quad, 'F', NULL, NULL, NULL));	     														
     															$$.code = quad_list_new(its_false);
     															$$.falselist = $$.code;
     															$$.truelist = NULL;
