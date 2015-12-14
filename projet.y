@@ -26,7 +26,14 @@
 %token <string> ID
 %token <value> NUM
 %token <string> CHAINE
-%token ASSIGN WHILE IF ELSE PRINTF INT FLOAT AND OR EQUAL NOT SUPEQ INFEQ SUP INF RETURN TRUE FALSE PRINT PRINTF PRINTMAT
+%token ASSIGN WHILE IF ELSE PRINTF INT FLOAT AND OR EQUAL NOT SUPEQ INFEQ SUP INF RETURN TRUE FALSE PRINT PRINTMAT
+
+%type <value> expr
+%type <expr> condition
+
+%left '-' '+'
+%left '*' '/'
+
 
 %%
 axiom:
@@ -57,28 +64,28 @@ axiom:
 	;
 
 expr:
-	  expr PLUS expr 										{ 	
+	  expr '+' expr 										{ 	
 		  														printf("expr -> expr + expr\n");
 																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_PLUS,$1.result,$3.result,$$.result));
 															}
-	| expr MOINS expr 										{
+	| expr '-' expr 										{
 																printf("expr -> expr - expr\n");
 																$$.result	= symbol_newtemp(&symbol_table);
 																$$.code	= $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_MOINS,$1.result,$3.result,$$.result));
 															}
-	| expr MUL expr											{	
+	| expr '*' expr											{	
 																printf("expr -> expr * expr\n");
 																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
 																quad_add(&$$.code,$3.code);
 																quad_add(&$$.code, quad_gen(_MUL,$1.result,$3.result,$$.result));
 															}
-	| expr DIV expr											{	
+	| expr '/' expr											{	
 																printf("expr -> expr * expr\n");
 																$$.result = symbol_newtemp(&symbol_table);
 																$$.code = $1.code;
@@ -103,19 +110,23 @@ expr:
 	;
 
 statement:
-	  ID ASSIGN expr 										{
+	  ID '=' expr 											{
 																$$.result = symbol_add(&symbol_table,$2);							
 																$$.code=NULL;
 																quad_add(&$$.code, quad_gen(_AFFECT,$4.result,NULL,$$.result));
 															}
-	| WHILE condition '{' statement '}'
-	| IF condition '{' statement '}'					{ }
-	| IF condition '{' statement ELSE statement '}'		{ }
+	| WHILE condition '{' statement '}'						{ }
+	| IF condition '{' statement '}'						{ }
+	| IF condition '{' statement ELSE statement '}'			{ }
 	;
 
 statement_list:
-	  statement_list statement
-	| statement
+	  statement ';' statement_list							{
+	  															$$.code = NULL;
+	  															quad_list_add(&$$.code, $1.code);
+	  															quad_list_add(&$$.code, $3.code);
+	  														}
+	| 														{ 	$$.code = NULL; }
 	;
 
 condition:
@@ -146,8 +157,20 @@ condition:
 	| expr EQUAL expr										{
 
 															}
-	| TRUE
-	| FALSE
+	| TRUE 													{
+	     														struct quad* its_true;
+	     														quad_add(&its_true, quad_gen(('T', NULL, NULL, NULL));	     														
+    															$$.code = quad_list_new(its_true);
+    															$$.truelist = $$.code;
+    															$$.falselist = NULL;											
+															}
+	| FALSE 												{
+																struct quad* its_false;
+	     														quad_add(&its_false, quad_gen(('F', NULL, NULL, NULL));	     														
+    															$$.code = quad_list_new(its_false);
+    															$$.falselist = $$.code;
+    															$$.truelist = NULL;
+															}
 	| condition AND tag condition 							{
 																quad_list_complete($1.falselist,$3.result);
 																quad_list_add($1.falselist, $4.falselist);
