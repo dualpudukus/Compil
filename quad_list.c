@@ -41,6 +41,3 @@ void quad_list_print(struct quad_list* list)
 		quad_print(list->node);
 }
 
-int main()
-{
-}
