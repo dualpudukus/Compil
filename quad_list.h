@@ -5,11 +5,11 @@
 #include <stdio.h>
 
 struct quad_list{
-	struct quad* node;
+	struct quad* quad;
 	struct quad_list* next;
 };
 
-struct quad_list* quad_list_new(struct quad* node);
+struct quad_list* quad_list_new(struct quad* quad);
 void quad_list_add(struct quad_list** dest, struct quad_list* src);
 void quad_list_complete(struct quad_list* list,struct symbol* label);
 void quad_list_free(struct quad_list* list);

@@ -13,6 +13,6 @@ struct quad {
 struct quad* quad_gen(int* label,char op, struct symbol* arg1,struct symbol* arg2,struct symbol* res);
 void quad_free(struct quad* quad);
 void quad_add(struct quad** dest, struct quad* src);
-void quad_print(struct quad* list);
+void quad_print(struct quad* quad);
 
 #endif
