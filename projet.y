@@ -30,10 +30,9 @@
 
 %type <value> expr
 %type <expr> condition
-
+%type <code_condition> statement
 %left '-' '+'
 %left '*' '/'
-
 
 %%
 axiom:
@@ -204,6 +203,7 @@ tag:
 		$$.result->value = next; 
 		$$.code = NULL;
 	};
+
 
 %%
 
