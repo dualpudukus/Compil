@@ -28,9 +28,9 @@
 %token <string> CHAINE
 %token ASSIGN WHILE IF ELSE PRINTF INT FLOAT AND OR EQUAL NOT SUPEQ INFEQ SUP INF RETURN TRUE FALSE PRINT PRINTMAT
 
-%type <value> expr
-%type <expr> condition
-%type <code_condition> statement
+%type <label> tag
+%type <code_expression> expr
+%type <code_condition> condition
 %left '-' '+'
 %left '*' '/'
 
