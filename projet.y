@@ -113,7 +113,7 @@ expr:
 
 statement:
 	  ID '=' expr 											{
-																$$.result = symbol_add(&symbol_table,$2);							
+																$$.result = symbol_add(&symbol_table, $1);							
 																$$.code=NULL;
 																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
 															}
