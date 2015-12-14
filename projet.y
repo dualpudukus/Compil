@@ -115,7 +115,7 @@ statement:
 	  ID '=' expr 											{
 																$$.result = symbol_add(&symbol_table,$2);							
 																$$.code=NULL;
-																quad_add(&$$.code, quad_gen(&next_quad, '=', $4.result, NULL, $$.result));
+																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
 															}
 	| WHILE condition '{' statement '}'						{ }
 	| IF condition '{' statement '}'						{ }
