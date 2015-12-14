@@ -6,7 +6,7 @@
 
 	struct symbol* symbol_table = NULL;
 	struct quad* code = NULL;
-	int next_quad = 0,
+	int next_quad = 0;
 %}
 
 %union { 
