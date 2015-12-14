@@ -205,7 +205,7 @@ condition:
 
 tag:
 	{ 	$$.result = symbol_newcst(&symbol_table, next_quad);
-		$$.result->value = next; 
+		$$.result->value = next_quad; 
 		$$.code = NULL;
 	};
 
