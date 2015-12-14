@@ -39,12 +39,8 @@
 
 %%
 axiom:
-	  program '\n'											{ printf("Match ! \n"); }
-	;
-
-program:
-	  condition 											{
-	  		  													struct symbol* cst_true = symbol_newcst(&symbol_table, 1);
+	  statement_list										{
+																struct symbol* cst_true = symbol_newcst(&symbol_table, 1);
 	  															struct symbol* cst_false = symbol_newcst(&symbol_table, 0);
 	  															struct symbol* result = symbol_add(&symbol_table, "result");
 	  															struct quad* is_true;
@@ -65,9 +61,7 @@ program:
 	  															quad_add(&code, is_true);
 	  															quad_add(&code, jump);
 	  															quad_add(&code, is_false);
-	  														}
-	|  statement_list										{}										
-	;
+	  														}										
 
 expr:
 	  expr '+' expr 										{ 	
