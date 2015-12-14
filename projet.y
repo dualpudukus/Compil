@@ -37,6 +37,10 @@
 %left '-' '+'
 %left '*' '/'
 
+%left OR
+%left AND
+%left NOT
+
 %%
 axiom:
 	  statement_list										{
