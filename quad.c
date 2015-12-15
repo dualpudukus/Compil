@@ -55,7 +55,3 @@ void quad_print(struct quad* quad){
 		quad = quad->next;
 	}
 }
-
-int main()
-{
-}

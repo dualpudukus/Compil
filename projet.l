@@ -12,6 +12,7 @@ chaine 		\"(\\.|[^\"\\])*\"
 [{}(),;] 		{return yytext[0];}
 [\+\-\*\/] 		{return yytext[0];}
 
+"main"			{return MAIN;}
 "while" 		{return WHILE;}
 "if" 			{return IF;}
 "else" 			{return ELSE;}
@@ -43,10 +44,3 @@ chaine 		\"(\\.|[^\"\\])*\"
 . 
 %%
 
-int main() {
-
-	printf("Bonsoir LEX\n");
-	yylex();
-	return 0;
-
-}
