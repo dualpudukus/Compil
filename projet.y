@@ -41,7 +41,13 @@
 %token <string> ID
 %token <value> NUM
 %token <string> CHAINE
-%token ASSIGN WHILE IF ELSE PRINTF INT FLOAT AND OR EQUAL NOT SUPEQ INFEQ SUP INF RETURN TRUE FALSE PRINT PRINTMAT MAIN
+%token ASSIGN TRUE FALSE
+%token WHILE IF ELSE
+%token PRINTMAT PRINT PRINTF
+%token INT FLOAT
+%token AND OR EQUAL NOT
+%token MAIN RETURN
+%token COMMENTAIRE
 
 %type <code_expression> expr
 %type <code_expression> statement
