@@ -21,14 +21,16 @@ struct symbol* symbol_add(struct symbol** table, char* id)
 	{
 		*table = symbol_alloc();
 		(*table)->identifier = strdup(id);
+		return *table;
 	} else {
 		scan = *table;
 		while (scan->next != NULL)
 			scan = scan->next;
 		scan->next = symbol_alloc();
 		scan->next->identifier = strdup(id);
+		return scan->next;
 	}
-	return scan;
+	
 }
 
 struct symbol* symbol_newtemp(struct symbol** table) 
