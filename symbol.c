@@ -14,19 +14,19 @@ struct symbol* symbol_alloc()
 	return new;
 }
 
-struct symbol* symbol_add(struct symbol** table, char* identifier)
+struct symbol* symbol_add(struct symbol** table, char* id)
 {
 	struct symbol* scan;
 	if (*table == NULL) 
 	{
 		*table = symbol_alloc();
-		(*table)->identifier = strdup(identifier);
+		(*table)->identifier = strdup(id);
 	} else {
 		scan = *table;
 		while (scan->next != NULL)
 			scan = scan->next;
 		scan->next = symbol_alloc();
-		scan->next->identifier = strdup(identifier);
+		scan->next->identifier = strdup(id);
 	}
 	return scan;
 }
