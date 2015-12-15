@@ -16,7 +16,7 @@ struct symbol* symbol_alloc();
 struct symbol* symbol_newtemp(struct symbol** table);
 struct symbol* symbol_add(struct symbol** table,char* identifier);
 struct symbol* symbol_lookup(struct symbol* table,char* identifier);
-struct symbol* symbol_newcst(struct symbol**, int value);
+struct symbol* symbol_newcst(struct symbol** table, int value);
 void symbol_print(struct symbol* symbol);
 void symbol_free(struct symbol* table);
 
