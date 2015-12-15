@@ -1,5 +1,5 @@
-#ifndef QUAD_LIST_H
-#define QUAD_LIST_H
+#ifndef _QUAD_LIST_H_
+#define _QUAD_LIST_H_
 
 #include <stdio.h>
 #include <stdlib.h>

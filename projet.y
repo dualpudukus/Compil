@@ -45,7 +45,7 @@
 %token WHILE IF ELSE
 %token PRINTMAT PRINT PRINTF
 %token INT FLOAT
-%token AND OR EQUAL NOT
+%token AND OR EQUAL NOT SUPEQ INFEQ
 %token MAIN RETURN
 %token COMMENTAIRE
 
@@ -60,7 +60,7 @@
 
 %left OR
 %left AND
-%left NOT
+%left '!'
 
 %%
 axiom : INT MAIN '('')' '{' statement_list RETURN NUM ';''}'	{ printf("Match\n"); code = $6.code; }

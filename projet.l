@@ -9,7 +9,7 @@
 identifier 		[_a-zA-Z][_a-zA-Z0-9]*
 number 			[0-9]+
 chaine 			\"(\\.|[^\"\\])*\"
-commentaire		/\*(.|[\r\n])*?\*/
+commentaire		(\/\*([^*]|[\r\n]|(\*+([^*\/]|[\r\n])))*\*+\/)|(\/\/.*)
 
 %%
 
@@ -30,11 +30,11 @@ commentaire		/\*(.|[\r\n])*?\*/
 "||" 				{return OR;}
 [=] 				{return ASSIGN;}
 "==" 				{return EQUAL;}
-"!" 				{return NOT;}
+"!" 				{return yytext[0];}
 ">=" 				{return SUPEQ;}
 "<=" 				{return INFEQ;}
-">" 				{return SUP;}
-"<" 				{return INF;}
+">" 				{return yytext[0];}
+"<" 				{return yytext[0];}
 
 "return" 			{return RETURN;}
 
