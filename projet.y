@@ -74,19 +74,7 @@ statement_list : statement ';'										{
 			   														}
 			   ;
 
-<<<<<<< HEAD
-statement : INT ID '=' expr';'									{
-																	printf("statement -> ID '=' expr\n");
-																	$$.result = symbol_add(&symbol_table, $2);							
-																	$$.code=NULL;
-																	quad_add(&$$.code, quad_gen(&next_quad, '=', $4.result, NULL, $$.result));
-																}
-		  | expr';'	 											{ printf("statement -> expr\n"); $$.code = $1.code; }
-		  | PRINT '(' expr ')' ';'								{ printf("print expr\n");
-		  														  $$.code = $3.code;
-																  symbol_print($3.result);
-		  														}
-=======
+
 statement : INT ID 													{ 
 																		printf("statement -> INT ID\n");
 																		$$.result = symbol_add(&symbol_table, $2);
@@ -96,8 +84,12 @@ statement : INT ID 													{
 		  																$$.code=NULL;
 		  																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
 		  															}
-		  | expr	 												{ printf("statement -> expr\n"); $$.code = $1.code; }
->>>>>>> 02d24db423e6319b1a4d5b6efa321460e765ed02
+		  | expr	 												{ printf("statement -> expr\n"); $$.code = $1.code;}
+
+		  | PRINT '(' expr ')' ';'								{ printf("print expr\n");
+		  														  $$.code = $3.code;
+																  symbol_print($3.result);
+		  														}
 		  ;
 
 expr : expr '+' expr 												{ 	
