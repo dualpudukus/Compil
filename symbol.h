@@ -1,6 +1,8 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #define SYMBOL_MAX_NAME 32
 

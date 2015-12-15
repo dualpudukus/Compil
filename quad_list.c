@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "quad_list.h"
-#include "quad.c"
+#include "quad.h"
 
 struct quad_list* quad_list_new(struct quad* quad)
 {

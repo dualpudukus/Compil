@@ -1,9 +1,10 @@
 #ifndef QUAD_LIST_H
 #define QUAD_LIST_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "quad.h"
 #include "symbol.h"
-#include <stdio.h>
 
 struct quad_list{
 	struct quad* quad;

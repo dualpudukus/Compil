@@ -1,6 +1,8 @@
 #ifndef QUAD_H
 #define QUAD_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include "symbol.h"
 
 struct quad {
