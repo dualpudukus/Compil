@@ -28,6 +28,7 @@ struct symbol* symbol_add(struct symbol** table, char* identifier)
 		scan->next = symbol_alloc();
 		scan->next->identifier = strdup(identifier);
 	}
+	return scan;
 }
 
 struct symbol* symbol_newtemp(struct symbol** table) 

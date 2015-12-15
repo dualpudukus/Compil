@@ -23,6 +23,8 @@
 	} code_condition;
 }
 
+%start axiom
+
 %token <string> ID
 %token <value> NUM
 %token <string> CHAINE
@@ -36,6 +38,8 @@
 
 %left '-' '+'
 %left '*' '/'
+
+%right '='
 
 %left OR
 %left AND
@@ -205,7 +209,6 @@ condition:
 
 tag:
 	{ 	$$.result = symbol_newcst(&symbol_table, next_quad);
-		$$.result->value = next_quad; 
 		$$.code = NULL;
 	};
 
