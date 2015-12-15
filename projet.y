@@ -15,7 +15,6 @@
 %union { 
 	int value;
 	char* string;
-	struct symbol* code_jump;
 	struct {
 		struct symbol* result;
 		struct quad* code;
@@ -81,6 +80,10 @@ statement : INT ID '=' expr';'									{
 																	quad_add(&$$.code, quad_gen(&next_quad, '=', $4.result, NULL, $$.result));
 																}
 		  | expr';'	 											{ printf("statement -> expr\n"); $$.code = $1.code; }
+		  | PRINT '(' expr ')' ';'								{ printf("print expr\n");
+		  														  $$.code = $3.code;
+																  symbol_print($3.result);
+		  														}
 		  ;
 
 expr : expr '+' expr 											{ 	
