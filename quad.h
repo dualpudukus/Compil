@@ -1,6 +1,8 @@
 #ifndef QUAD_H
 #define QUAD_H
 
+#include "symbol.h"
+
 struct quad {
 	int* label;
 	char op;

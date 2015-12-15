@@ -2,6 +2,9 @@
 	//-----YACC-----
 	#include <stdlib.h>
 	#include <stdio.h>
+	#include "quad.h"
+	#include "symbol.h"
+	#include "quad_list.h"
 	void yyerror(char*);
 
 	struct symbol* symbol_table = NULL;
@@ -54,28 +57,60 @@
 %left NOT
 
 %%
-axiom: 
-	INT MAIN '('')' '{' statement_list RETURN NUM ';''}'{printf("Match\n"); code = $6.code;}
+axiom : INT MAIN '('')' '{' statement_list RETURN NUM ';''}'	{ printf("Match\n"); code = $6.code; }
+	  ;
 
-statement_list:
-	statement {$$.code = $1.code;}
-		| statement_list statement {$$.code = $1.code; quad_add(&$$.code,$2.code); }
+statement_list : statement 										{ $$.code = $1.code; }
+			   | statement_list statement 						{ $$.code = $1.code; quad_add(&$$.code,$2.code); }
+			   ;
 
-statement:
-	expr';' { $$.code = $1.code;}
+statement : expr';' 											{ $$.code = $1.code; }
+		  ;
 
-expr:
-	| ID													{
-																$$.result = symbol_lookup(symbol_table, $1);
-																if ($$.result == NULL)
-																	$$.result = symbol_add(&symbol_table, $1);
-																$$.code = NULL;
-															}
-	| NUM													{
-																$$.result = symbol_newcst(&symbol_table, $1);
-																$$.code = NULL;
-															}
-	;
+expr : expr '+' expr 											{ 	
+			  														printf("expr -> expr + expr\n");
+																	$$.result	= symbol_newtemp(&symbol_table);
+																	$$.code	= $1.code;
+																	quad_add(&$$.code,$3.code);
+																	quad_add(&$$.code, quad_gen(&next_quad, '+', $1.result, $3.result, $$.result));
+																}
+	 | expr '-' expr 											{
+																	printf("expr -> expr - expr\n");
+																	$$.result	= symbol_newtemp(&symbol_table);
+																	$$.code	= $1.code;
+																	quad_add(&$$.code,$3.code);
+																	quad_add(&$$.code, quad_gen(&next_quad, '-', $1.result, $3.result, $$.result));
+																}
+	 | expr '*' expr											{	
+																	printf("expr -> expr * expr\n");
+																	$$.result = symbol_newtemp(&symbol_table);
+																	$$.code = $1.code;
+																	quad_add(&$$.code,$3.code);
+																	quad_add(&$$.code, quad_gen(&next_quad, '*', $1.result, $3.result, $$.result));
+																}
+	 | expr '/' expr											{	
+																	printf("expr -> expr * expr\n");
+																	$$.result = symbol_newtemp(&symbol_table);
+																	$$.code = $1.code;
+																	quad_add(&$$.code,$3.code);
+																	quad_add(&$$.code, quad_gen(&next_quad, '/', $1.result, $3.result, $$.result));
+																}
+	 | '(' expr ')'										 		{ 	
+																	printf("expr -> ( expr ) \n");
+																	$$.result	= $2.result;
+																	$$.code	= $2.code;
+																}
+	 | ID														{
+																	$$.result = symbol_lookup(symbol_table, $1);
+																	if ($$.result == NULL)
+																		$$.result = symbol_add(&symbol_table, $1);
+																	$$.code = NULL;
+																}
+	 | NUM														{
+																	$$.result = symbol_newcst(&symbol_table, $1);
+																	$$.code = NULL;
+																}
+	 ;
 %%
 
 int main()

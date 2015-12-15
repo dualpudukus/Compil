@@ -2,6 +2,7 @@
 #define QUAD_LIST_H
 
 #include "quad.h"
+#include "symbol.h"
 #include <stdio.h>
 
 struct quad_list{
