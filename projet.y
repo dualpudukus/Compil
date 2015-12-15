@@ -59,20 +59,22 @@
 %left '!'
 
 %%
-axiom : INT MAIN '('')' '{' statement_list RETURN NUM ';''}'	{ printf("Match with main\n"); code = $6.code; }
-	  | statement_list											{ printf("Match\n"); code = $1.code; }
+axiom : INT MAIN '('')' '{' statement_list RETURN NUM ';''}' '\n'	{ printf("Match with main\n"); code = $6.code; }
+	  | statement_list	'\n'										{ printf("Match\n"); code = $1.code; }
 	  ;
 
-statement_list : statement 										{ 
-																	printf("statement_list -> statement");
-																	$$.code = $1.code; 
-																}
-			   | statement_list statement 						{
-			   														printf("statement_list -> statement_list statement\n");
-			   														$$.code = $1.code; 
-			   														quad_add(&$$.code,$2.code); }
+statement_list : statement ';'										{ 
+																		printf("statement_list -> statement\n");
+																		$$.code = $1.code; 
+																	}
+			   | statement_list ';' statement 						{
+			   															printf("statement_list -> statement_list statement\n");
+			   															$$.code = $1.code; 
+			   															quad_add(&$$.code,$3.code);
+			   														}
 			   ;
 
+<<<<<<< HEAD
 statement : INT ID '=' expr';'									{
 																	printf("statement -> ID '=' expr\n");
 																	$$.result = symbol_add(&symbol_table, $2);							
@@ -84,53 +86,65 @@ statement : INT ID '=' expr';'									{
 		  														  $$.code = $3.code;
 																  symbol_print($3.result);
 		  														}
+=======
+statement : INT ID 													{ 
+																		printf("statement -> INT ID\n");
+																		$$.result = symbol_add(&symbol_table, $2);
+																	}
+		  | ID '=' expr 											{ 
+		  																printf("statement -> ID '=' expr\n");
+		  																$$.code=NULL;
+		  																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
+		  															}
+		  | expr	 												{ printf("statement -> expr\n"); $$.code = $1.code; }
+>>>>>>> 02d24db423e6319b1a4d5b6efa321460e765ed02
 		  ;
 
-expr : expr '+' expr 											{ 	
-			  														printf("expr -> expr + expr\n");
-																	$$.result	= symbol_newtemp(&symbol_table);
-																	$$.code	= $1.code;
-																	quad_add(&$$.code,$3.code);
-																	quad_add(&$$.code, quad_gen(&next_quad, '+', $1.result, $3.result, $$.result));
-																}
-	 | expr '-' expr 											{
-																	printf("expr -> expr - expr\n");
-																	$$.result	= symbol_newtemp(&symbol_table);
-																	$$.code	= $1.code;
-																	quad_add(&$$.code,$3.code);
-																	quad_add(&$$.code, quad_gen(&next_quad, '-', $1.result, $3.result, $$.result));
-																}
-	 | expr '*' expr											{	
-																	printf("expr -> expr * expr\n");
-																	$$.result = symbol_newtemp(&symbol_table);
-																	$$.code = $1.code;
-																	quad_add(&$$.code,$3.code);
-																	quad_add(&$$.code, quad_gen(&next_quad, '*', $1.result, $3.result, $$.result));
-																}
-	 | expr '/' expr											{	
-																	printf("expr -> expr / expr\n");
-																	$$.result = symbol_newtemp(&symbol_table);
-																	$$.code = $1.code;
-																	quad_add(&$$.code,$3.code);
-																	quad_add(&$$.code, quad_gen(&next_quad, '/', $1.result, $3.result, $$.result));
-																}
-	 | '(' expr ')'										 		{ 	
-																	printf("expr -> ( expr ) \n");
-																	$$.result	= $2.result;
-																	$$.code	= $2.code;
-																}
-	 | ID														{
-																	printf("expr -> ID\n");
-																	$$.result = symbol_lookup(symbol_table, $1);
-																	if ($$.result == NULL)
-																		$$.result = symbol_add(&symbol_table, $1);
-																	$$.code = NULL;
-																}
-	 | NUM														{
-	 																printf("expr -> NUM\n");
-																	$$.result = symbol_newcst(&symbol_table, $1);
-																	$$.code = NULL;
-																}
+expr : expr '+' expr 												{ 	
+			  															printf("expr -> expr + expr\n");
+																		$$.result	= symbol_newtemp(&symbol_table);
+																		$$.code	= $1.code;
+																		quad_add(&$$.code,$3.code);
+																		quad_add(&$$.code, quad_gen(&next_quad, '+', $1.result, $3.result, $$.result));
+																	}
+	 | expr '-' expr 												{
+																		printf("expr -> expr - expr\n");
+																		$$.result	= symbol_newtemp(&symbol_table);
+																		$$.code	= $1.code;
+																		quad_add(&$$.code,$3.code);
+																		quad_add(&$$.code, quad_gen(&next_quad, '-', $1.result, $3.result, $$.result));
+																	}
+	 | expr '*' expr												{	
+																		printf("expr -> expr * expr\n");
+																		$$.result = symbol_newtemp(&symbol_table);
+																		$$.code = $1.code;
+																		quad_add(&$$.code,$3.code);
+																		quad_add(&$$.code, quad_gen(&next_quad, '*', $1.result, $3.result, $$.result));
+																	}
+	 | expr '/' expr												{	
+																		printf("expr -> expr / expr\n");
+																		$$.result = symbol_newtemp(&symbol_table);
+																		$$.code = $1.code;
+																		quad_add(&$$.code,$3.code);
+																		quad_add(&$$.code, quad_gen(&next_quad, '/', $1.result, $3.result, $$.result));
+																	}
+	 | '(' expr ')'											 		{ 	
+																		printf("expr -> ( expr ) \n");
+																		$$.result	= $2.result;
+																		$$.code	= $2.code;
+																	}
+	 | ID 															{
+																		printf("expr -> ID\n");
+																		$$.result = symbol_lookup(symbol_table, $1);
+																		if ($$.result == NULL)
+																			$$.result = symbol_add(&symbol_table, $1);
+																		$$.code = NULL;
+																	}
+	 | NUM															{
+		 																printf("expr -> NUM\n");
+																		$$.result = symbol_newcst(&symbol_table, $1);
+																		$$.code = NULL;
+																	}
 	 ;
 %%
 
