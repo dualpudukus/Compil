@@ -86,7 +86,10 @@ statement : INT ID 													{
 		  																	printf("ID not declared.\n");
 		  																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
 		  															}
-		  | expr	 												{ printf("statement -> expr\n"); $$.code = $1.code;}
+		  | expr	 												{ 
+		  																printf("statement -> expr\n");
+		  																$$.code = $1.code;
+		  															}
 
 		  | PRINT '(' expr ')'										{ 
 		  																printf("statement -> PRINT '(' expr ')'\n");

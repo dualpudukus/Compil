@@ -499,8 +499,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    62,    62,    63,    66,    70,    78,    82,    89,    91,
-      98,   105,   112,   119,   126,   131,   138
+       0,    62,    62,    63,    66,    70,    78,    82,    89,    94,
+     101,   108,   115,   122,   129,   134,   141
 };
 #endif
 
@@ -1350,22 +1350,25 @@ yyreduce:
 
   case 8:
 #line 89 "projet.y" /* yacc.c:1646  */
-    { printf("statement -> expr\n"); (yyval.code_expression).code = (yyvsp[0].code_expression).code;}
-#line 1355 "y.tab.c" /* yacc.c:1646  */
+    { 
+		  																printf("statement -> expr\n");
+		  																(yyval.code_expression).code = (yyvsp[0].code_expression).code;
+		  															}
+#line 1358 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 91 "projet.y" /* yacc.c:1646  */
+#line 94 "projet.y" /* yacc.c:1646  */
     { 
 		  																printf("statement -> PRINT '(' expr ')'\n");
 		  																(yyval.code_expression).code = (yyvsp[-1].code_expression).code;
 																		symbol_print((yyvsp[-1].code_expression).result);
 		  															}
-#line 1365 "y.tab.c" /* yacc.c:1646  */
+#line 1368 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 98 "projet.y" /* yacc.c:1646  */
+#line 101 "projet.y" /* yacc.c:1646  */
     { 	
 			  															printf("expr -> expr + expr\n");
 																		(yyval.code_expression).result	= symbol_newtemp(&symbol_table);
@@ -1373,11 +1376,11 @@ yyreduce:
 																		quad_add(&(yyval.code_expression).code,(yyvsp[0].code_expression).code);
 																		quad_add(&(yyval.code_expression).code, quad_gen(&next_quad, '+', (yyvsp[-2].code_expression).result, (yyvsp[0].code_expression).result, (yyval.code_expression).result));
 																	}
-#line 1377 "y.tab.c" /* yacc.c:1646  */
+#line 1380 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 105 "projet.y" /* yacc.c:1646  */
+#line 108 "projet.y" /* yacc.c:1646  */
     {
 																		printf("expr -> expr - expr\n");
 																		(yyval.code_expression).result	= symbol_newtemp(&symbol_table);
@@ -1385,11 +1388,11 @@ yyreduce:
 																		quad_add(&(yyval.code_expression).code,(yyvsp[0].code_expression).code);
 																		quad_add(&(yyval.code_expression).code, quad_gen(&next_quad, '-', (yyvsp[-2].code_expression).result, (yyvsp[0].code_expression).result, (yyval.code_expression).result));
 																	}
-#line 1389 "y.tab.c" /* yacc.c:1646  */
+#line 1392 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 112 "projet.y" /* yacc.c:1646  */
+#line 115 "projet.y" /* yacc.c:1646  */
     {	
 																		printf("expr -> expr * expr\n");
 																		(yyval.code_expression).result = symbol_newtemp(&symbol_table);
@@ -1397,11 +1400,11 @@ yyreduce:
 																		quad_add(&(yyval.code_expression).code,(yyvsp[0].code_expression).code);
 																		quad_add(&(yyval.code_expression).code, quad_gen(&next_quad, '*', (yyvsp[-2].code_expression).result, (yyvsp[0].code_expression).result, (yyval.code_expression).result));
 																	}
-#line 1401 "y.tab.c" /* yacc.c:1646  */
+#line 1404 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 119 "projet.y" /* yacc.c:1646  */
+#line 122 "projet.y" /* yacc.c:1646  */
     {	
 																		printf("expr -> expr / expr\n");
 																		(yyval.code_expression).result = symbol_newtemp(&symbol_table);
@@ -1409,21 +1412,21 @@ yyreduce:
 																		quad_add(&(yyval.code_expression).code,(yyvsp[0].code_expression).code);
 																		quad_add(&(yyval.code_expression).code, quad_gen(&next_quad, '/', (yyvsp[-2].code_expression).result, (yyvsp[0].code_expression).result, (yyval.code_expression).result));
 																	}
-#line 1413 "y.tab.c" /* yacc.c:1646  */
+#line 1416 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 126 "projet.y" /* yacc.c:1646  */
+#line 129 "projet.y" /* yacc.c:1646  */
     { 	
 																		printf("expr -> ( expr ) \n");
 																		(yyval.code_expression).result	= (yyvsp[-1].code_expression).result;
 																		(yyval.code_expression).code	= (yyvsp[-1].code_expression).code;
 																	}
-#line 1423 "y.tab.c" /* yacc.c:1646  */
+#line 1426 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 131 "projet.y" /* yacc.c:1646  */
+#line 134 "projet.y" /* yacc.c:1646  */
     {
 																		printf("expr -> ID\n");
 																		(yyval.code_expression).result = symbol_lookup(symbol_table, (yyvsp[0].string));
@@ -1431,21 +1434,21 @@ yyreduce:
 																			(yyval.code_expression).result = symbol_add(&symbol_table, (yyvsp[0].string));
 																		(yyval.code_expression).code = NULL;
 																	}
-#line 1435 "y.tab.c" /* yacc.c:1646  */
+#line 1438 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 138 "projet.y" /* yacc.c:1646  */
+#line 141 "projet.y" /* yacc.c:1646  */
     {
 		 																printf("expr -> NUM\n");
 																		(yyval.code_expression).result = symbol_newcst(&symbol_table, (yyvsp[0].value));
 																		(yyval.code_expression).code = NULL;
 																	}
-#line 1445 "y.tab.c" /* yacc.c:1646  */
+#line 1448 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1449 "y.tab.c" /* yacc.c:1646  */
+#line 1452 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1673,7 +1676,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 144 "projet.y" /* yacc.c:1906  */
+#line 147 "projet.y" /* yacc.c:1906  */
 
 
 int main()
