@@ -82,14 +82,17 @@ statement : INT ID 													{
 		  | ID '=' expr 											{ 
 		  																printf("statement -> ID '=' expr\n");
 		  																$$.code=NULL;
+		  																if (symbol_lookup(symbol_table, $1) == NULL)
+		  																	printf("ID not declared.\n");
 		  																quad_add(&$$.code, quad_gen(&next_quad, '=', $3.result, NULL, $$.result));
 		  															}
 		  | expr	 												{ printf("statement -> expr\n"); $$.code = $1.code;}
 
-		  | PRINT '(' expr ')' ';'								{ printf("print expr\n");
-		  														  $$.code = $3.code;
-																  symbol_print($3.result);
-		  														}
+		  | PRINT '(' expr ')'										{ 
+		  																printf("statement -> PRINT '(' expr ')'\n");
+		  																$$.code = $3.code;
+																		symbol_print($3.result);
+		  															}
 		  ;
 
 expr : expr '+' expr 												{ 	
