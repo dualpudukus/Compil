@@ -2,9 +2,9 @@
 	//-----YACC-----
 	#include <stdlib.h>
 	#include <stdio.h>
-	#include "quad.h"
-	#include "symbol.h"
-	#include "quad_list.h"
+	#include "quad.c"
+	#include "symbol.c"
+	#include "quad_list.c"
 	void yyerror(char*);
 
 	struct symbol* symbol_table = NULL;
