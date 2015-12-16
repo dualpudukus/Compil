@@ -5,6 +5,7 @@
 	#include "quad.c"
 	#include "symbol.c"
 	#include "quad_list.c"
+	#include "matrice.h"
 	void yyerror(char*);
 
 	struct symbol* symbol_table = NULL;
